@@ -25,6 +25,10 @@
         await axios.post("/app/Channel/add", {name: channelName})
         showPopup(false)
     }
+
+    const anchorClicked = (e) => {
+        e.target.dispatchEvent(new Event("channel_selected", {bubbles: true}))
+    }
 </script>
 
 <div class="w-full h-full py-2 sidebar">
@@ -38,7 +42,7 @@
     </div>
     {#each $_channels as _channel}
     <Record record={_channel} let:record={channel}>
-        <a blank href={`/app/${channel._id}`} class="channel" class:selected={$params.channel == channel._id}>
+        <a blank href={`/app/${channel._id}`} on:click={anchorClicked} class="channel" class:selected={$params.channel == channel._id}>
             {channel.name}
         </a>
     </Record>
